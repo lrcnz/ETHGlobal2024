@@ -16,3 +16,7 @@ export function getBoxListByCreatorAddress(creatorAddress: string) {
 export function getBoxById(id: number) {
   return prisma.box.findUnique({ where: { id } });
 }
+
+export function getAllBoxList() {
+  return prisma.box.findMany();
+}

@@ -11,7 +11,7 @@ import { SHORT_MARKET_ABI } from "./abis/short-market";
 
 export class ShortMarket implements Action {
   readonly id = 'short-market';
-  readonly riskLevel = "risk";
+  readonly riskLevel = "safe";
   readonly contractAddress = SHORT_MARKET;
 
   public getDescription(data: Circuit): string {

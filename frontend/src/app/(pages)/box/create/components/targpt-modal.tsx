@@ -31,7 +31,7 @@ const TypedText = ({ text, className, onCompletedTyping }: { text: string, class
 
     return () => clearInterval(intervalId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [text]);
+  }, []);
 
   return (
     <div className={className}>
@@ -98,7 +98,7 @@ export function TarGPTModal() {
     if (typeof window === "undefined") return;
 
     setOpen(true);
-    setStep(1);
+    // setStep(1);
 
     const modal = document.getElementById("targpt-modal") as HTMLDialogElement;
 
@@ -157,8 +157,57 @@ export function TarGPTModal() {
 
   const handleDeltaNeutra = () => {
     const newBox = Box.fromJSON(
-      JSON.parse(`"[{\"id\":\"0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"split\",\"outputToken\":[\"USDC\",\"USDC\"]}},{\"id\":\"0-0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"swap\",\"outputToken\":[\"ETH\"]}},{\"id\":\"0-0-0\",\"data\":{\"inputToken\":[\"ETH\"],\"actionId\":\"lido\",\"outputToken\":[\"stETH\"]}},{\"id\":\"0-1\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"short-market\",\"outputToken\":[\"Short USDC\"]}}]"`)
-    );
+      [
+        {
+            "id": "0",
+            "data": {
+                "inputToken": [
+                    "USDC"
+                ],
+                "actionId": "split",
+                "outputToken": [
+                    "USDC",
+                    "USDC"
+                ]
+            }
+        },
+        {
+            "id": "0-0",
+            "data": {
+                "inputToken": [
+                    "USDC"
+                ],
+                "actionId": "swap",
+                "outputToken": [
+                    "ETH"
+                ]
+            }
+        },
+        {
+            "id": "0-0-0",
+            "data": {
+                "inputToken": [
+                    "ETH"
+                ],
+                "actionId": "lido",
+                "outputToken": [
+                    "stETH"
+                ]
+            }
+        },
+        {
+            "id": "0-1",
+            "data": {
+                "inputToken": [
+                    "USDC"
+                ],
+                "actionId": "short-market",
+                "outputToken": [
+                    "Short USDC"
+                ]
+            }
+        }
+    ]);
 
     if (newBox.getRoot()) {
       box.setRoot(newBox.getRoot()!);
@@ -226,8 +275,18 @@ export function TarGPTModal() {
               />
               <div className="my-4">
                 <div className="flex gap-8 mb-2">
-                  <button className="btn btn-primary btn-sm" onClick={() => setStep(3)}>Lower Risk</button>
-                  <button className="btn btn-primary btn-sm" onClick={() => {setStep(4)}}>Higher APY</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => {
+                    setStep(3);
+                    setTimeout(() => {
+                      handleDeltaNeutra();
+                    }, 2000);
+                  }}>Lower Risk</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => {
+                    setStep(4);
+                    setTimeout(() => {
+                      handleHigherAPY();
+                    }, 2000);
+                  }}>Higher APY</button>
                 </div>
                 <p>Provide your feedback for adjustments</p>
               </div>
@@ -235,21 +294,6 @@ export function TarGPTModal() {
           </div>
         }
       />,
-    ],
-    [
-      <DialogItem
-        key="targpt-response-2-2"
-        avatar={<TarGPTAvatar />}
-        content={
-          <div className="text-sm font-normal">
-            <TypedTextFlow>
-              <TypedText text="Finding suitable Circuits for overall lower risk Box..." />
-              <TypedText text="Box updated🚀" />
-              <TypedText text="Please review the updated created Box with lower overall risk." onCompletedTyping={() => handleHigherAPY()} />
-            </TypedTextFlow>
-          </div>
-        }
-      />
     ],
     [
       <DialogItem
@@ -277,19 +321,15 @@ export function TarGPTModal() {
         TarGPT
       </button>
       <dialog id="targpt-modal" className="modal" onClose={() => setOpen(false)}>
-        {
-          open && (
-            <div className="modal-box bg-white translate-x-[560px] mt-[200px]">
-              <h3 className="font-bold text-lg mb-5">TarGPT Assistant</h3>
-              <div className="h-[600px] overflow-auto">
-                {items.slice(0, step)}
-              </div>
-              <div className="">
-                <input placeholder="Message TarGPT" className="input w-full h-[34px] px-4 py-[6px] rounded-[30px] border border-black/40" />
-              </div>
-            </div>
-          )
-        }
+        <div className="modal-box bg-white translate-x-[560px] mt-[200px]">
+          <h3 className="font-bold text-lg mb-5">TarGPT Assistant</h3>
+          <div className="h-[600px] overflow-auto">
+            {items.slice(0, step)}
+          </div>
+          <div className="">
+            <input placeholder="Message TarGPT" className="input w-full h-[34px] px-4 py-[6px] rounded-[30px] border border-black/40" />
+          </div>
+        </div>
       </dialog>
     </>
   );
