@@ -1,17 +1,7 @@
 "use client";
 
 import AccountAvatar from "@/components/account-avatar";
-// import { truncateAddress } from "@/utils/truncate-address";
-// import { StatisticCard } from "@/components/statistic-card";
-// import { useAccount } from "wagmi";
-// import { useMutation, useQuery } from "@tanstack/react-query";
-// import { Prisma } from "@prisma/client";
-// import { useState } from "react";
-// import { WithSkeleton } from "@/components/skeleton";
-// import { Button } from "@/components/button";
-// import { useUserInfo } from "@/hooks/use-user-info";
 import { useWalletInformation } from "@/hooks/use-wallet-information";
-import { truncateAddress } from "@/utils/truncate-address";
 import { StatisticCard } from "./statistic-card";
  
 const UserInfo = () => {
@@ -21,14 +11,18 @@ const UserInfo = () => {
 
   console.log(walletInfo);
 
+  const handleClick = () => {
+    window.open(`https://sepolia.etherscan.io/address/${walletInfo.data.address}`);
+  }
+
   return (
     <div className="flex flex-col items-center pb-[30px] mt-[30px] bg-white rounded-[20px] p-6 mb-10">
       <div className="w-[120px] h-[120px] rounded-full bg-black/5 flex items-center justify-center mb-3">
         <AccountAvatar address={walletInfo.data.address} size={80} />
       </div>
 
-      <div className="mb-3 text-black text-[40px] leading-[48px] font-bold">
-        {walletInfo.data?.address ? truncateAddress(walletInfo.data?.address) : "Loading..."}
+      <div className="mb-3 text-black text-[24px] leading-[48px] font-bold cursor-pointer" onClick={handleClick}>
+        {walletInfo.data?.address ? walletInfo.data?.address : "Loading..."}
       </div>
       <div className="mb-6 flex items-center justify-center gap-6">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 stroke-gray-700">

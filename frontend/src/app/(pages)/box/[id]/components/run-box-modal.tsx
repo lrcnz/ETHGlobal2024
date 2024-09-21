@@ -76,6 +76,9 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
       const amount = form.getValues("amount");
       const box = Box.fromJSON(data);
       const parsed = parseUnits(amount.toString(), balance?.decimals || 18);
+
+      console.log(parsed);
+
       const contracts = await box.execute(actionManager, publicClient, address, [parsed]);
 
       const params = contracts.map((item) => {
@@ -99,7 +102,6 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
       });
 
       setCallsStatus('pending');
-
 
       client?.execute(response.data.challengeId, (err) => {
         console.log(err);
@@ -125,12 +127,20 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
     const modal = document.getElementById("tx-success-modal") as HTMLDialogElement;
 
     modal.showModal();
+
+    setTimeout(() => {
+      modal.close();
+    }, 3000);
   }
 
   return (
     <>
       <button className="btn btn-primary" onClick={handleOpenRunModal}>Run</button>
       <dialog id={`run-box-${id}`} className="modal">
+        <form method="dialog">
+          {/* if there is a button in form, it will close the modal */}
+          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-black">✕</button>
+        </form>
         <div className="modal-box bg-white">
           <h3 className="font-bold text-lg mb-5">{`Run ${name}`}</h3>
           <div className="mb-10">

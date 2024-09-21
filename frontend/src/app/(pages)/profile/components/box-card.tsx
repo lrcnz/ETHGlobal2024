@@ -1,3 +1,4 @@
+/* eslint-disable */
 import * as React from "react";
 // import { BoxOverview } from "./box-overview";
 import { useRouter } from "next/navigation";
@@ -20,6 +21,11 @@ export function BoxCard({ id, name, creatorAddress, content, apy }: BoxCardProps
   const inputToken = box?.getRoot()?.details?.inputToken || [];
   const handleToBoxDetail = () => {
     router.push(`/box/${id}`);
+  }
+  const handleUnstake = (e: any) => {
+    router.push(`/box/create?content=unstake&name=unstake`);
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   return (
@@ -46,9 +52,11 @@ export function BoxCard({ id, name, creatorAddress, content, apy }: BoxCardProps
             </p>
           </div>
         </div>
-        {/* <div>
-          <RunBoxButton data={content} name={name} />
-        </div> */}
+        <div>
+          {
+            name === 'Restake to ezETH' && <button className="btn btn-outline btn-sm btn-primary" onClick={handleUnstake}>Unstake</button>
+          }
+        </div>
       </div>
       <div className="flex items-stretch gap-6 mb-6">
         <div className="p-4 bg-[#f6ff7f] rounded-[20px] flex-col justify-start items-start gap-2 inline-flex">

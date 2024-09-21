@@ -206,7 +206,7 @@ export function TarGPTModal() {
               <TypedText className="" text="Analysing your transaction history..." />
               <TypedText className="" text="Analysing your transaction history..." />
               <TypedText className="" text="Picking Circuits..." />
-              <TypedText className="font-bold" text="Box created🚀" />
+              <TypedText className="font-bold" text="Box (Mocked) Created🚀" />
               <TypedText
                 className=""
                 text="Please review the newly created Box. You may save and run it, or provide feedback and I can modify accordingly."
@@ -372,6 +372,10 @@ export function TarGPTModal() {
       </button>
       <dialog id="targpt-modal" className="modal" onClose={() => setOpen(false)}>
         <div className="modal-box bg-white translate-x-[560px] mt-[200px]">
+          <form method="dialog">
+            {/* if there is a button in form, it will close the modal */}
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-black">✕</button>
+          </form>
           <h3 className="font-bold text-lg mb-5">TarGPT Assistant</h3>
           <div className="h-[600px] overflow-auto">
             {message}

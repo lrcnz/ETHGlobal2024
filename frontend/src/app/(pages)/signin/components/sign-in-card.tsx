@@ -73,7 +73,7 @@ const SigninCard = () => {
   return (
     <div className="card shadow-xl bg-white" >
       <div className="card-body" >
-        <h2 className="card-title uppercase font-bold mb-5 text-black" >SignIn</h2>
+        <h2 className="card-title uppercase font-bold mb-5 text-black" >Register/Login</h2>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col h-full">
           <div className="flex-1">
             <div className="relative mb-6">
