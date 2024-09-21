@@ -10,6 +10,8 @@ import { LendingPool } from "@/lib/actions/actions/lending-pool";
 import { ShortMarket } from "@/lib/actions/actions/short-market";
 import { CloseShortMarket } from "@/lib/actions/actions/close-short-market";
 import { actionManager } from "@/atoms/action-manager";
+import { UnstakeRenzoAction } from "@/lib/actions/actions/unstake-renzo";
+import { UnstakeLidoAction } from "@/lib/actions/actions/unstake-lido";
 
 export function useInitActionManager () {
   const [, setActionManager] = useAtom(actionManager);
@@ -23,7 +25,9 @@ export function useInitActionManager () {
       new JoinAction(),
       new LendingPool(),
       new ShortMarket(),
-      new CloseShortMarket()
+      new CloseShortMarket(),
+      new UnstakeRenzoAction(),
+      new UnstakeLidoAction()
     ]));
   }, [setActionManager]);
 }

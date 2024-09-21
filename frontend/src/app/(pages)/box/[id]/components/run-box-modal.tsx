@@ -39,7 +39,7 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
     const modal = document.getElementById(`run-box-${id}`) as HTMLDialogElement;
     modal.showModal();
     form.reset({ amount: "" });
-    setCallsStatus(null);
+    setCallsStatus(undefined);
   }
   const mutation = useMutation({
     mutationKey: ['send-tx'],
@@ -78,7 +78,6 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
       const parsed = parseUnits(amount.toString(), balance?.decimals || 18);
       const contracts = await box.execute(actionManager, publicClient, address, [parsed]);
 
-      console.log(contracts);
       const params = contracts.map((item) => {
         return [
           item.address,
@@ -99,10 +98,16 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
         feeLevel: "LOW",
       });
 
-      console.log(response);
+      setCallsStatus('pending');
+
 
       client?.execute(response.data.challengeId, (err) => {
         console.log(err);
+
+        setTimeout(() => {
+          setCallsStatus('success');
+          handleOpenModal()
+        }, 2000);
       });
 
       // writeContracts({ contracts: contracts });
@@ -112,6 +117,14 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
 
     const modal = document.getElementById(`run-box-${id}`) as HTMLDialogElement;
     modal.close();
+  }
+
+  const handleOpenModal = () => {
+    if (typeof window === "undefined") return;
+
+    const modal = document.getElementById("tx-success-modal") as HTMLDialogElement;
+
+    modal.showModal();
   }
 
   return (

@@ -112,7 +112,8 @@ export class SwapAction implements Action {
   }
 
   private getAvailableOutputToken(token: string) {
-    const availablePairs = pairs.filter(pair => pair[0] === token || pair[1] === token);
+    const wrapperToken = token === "ETH" ? "WETH" : token;
+    const availablePairs = pairs.filter(pair => pair[0] === wrapperToken || pair[1] === wrapperToken);
 
     // never useable, just for ts check
     if (availablePairs.length === 0) return [];
@@ -135,7 +136,7 @@ export class SwapAction implements Action {
 
     if (!inputToken || inputToken.length !== 1) return false;
 
-    const token = inputToken[0];
+    const token = inputToken[0] === "ETH" ? "WETH" : inputToken[0];
 
     const availablePairs = pairs.filter(pair => pair[0] === token || pair[1] === token);
 

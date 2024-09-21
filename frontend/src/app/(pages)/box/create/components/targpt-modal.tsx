@@ -6,6 +6,7 @@ import { useAccount } from "wagmi";
 import { useCreateContext } from "../hooks/use-create-context";
 import { Box } from "@/lib/box/box";
 import AccountAvatar from "@/components/account-avatar";
+import { atom, useAtom } from "jotai";
 
 const TypedText = ({ text, className, onCompletedTyping }: { text: string, className?: string, onCompletedTyping?: () => void }) => {
   const [displayResponse, setDisplayResponse] = useState("");
@@ -88,137 +89,16 @@ function DialogItem({ avatar, content, position = "left" }: DialogItemProps) {
   );
 }
 
+const messageAtom = atom<any[]>([]);
+
 export function TarGPTModal() {
   const { address } = useAccount();
   const [open, setOpen] = useState(false);
-  const [step, setStep] = useState(1);
   const { box, form } = useCreateContext();
+  const [message, setMessage] = useAtom(messageAtom);
 
-  const handleOpenModal = () => {
-    if (typeof window === "undefined") return;
-
-    setOpen(true);
-    // setStep(1);
-
-    const modal = document.getElementById("targpt-modal") as HTMLDialogElement;
-
-    modal.showModal();
-  }
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const handleNormalGenerateBox = () => {
-    const newBox = Box.fromJSON(
-      [
-        {
-          "id": "0",
-          "data": {
-            "inputToken": ["USDC"],
-            "actionId": "swap",
-            "outputToken": ["ETH"]
-          }
-        },
-        {
-          "id": "0-0",
-          "data": {
-            "inputToken": ["ETH"],
-            "actionId": "lido",
-            "outputToken": ["stETH"]
-          }
-        },
-        {
-          "id": "0-0-0",
-          "data": {
-            "inputToken": ["stETH"],
-            "actionId": "zenzo",
-            "outputToken": ["ezETH"]
-          }
-        }
-      ]
-    );
-
-    if (newBox.getRoot()) {
-      box.setRoot(newBox.getRoot()!);
-      box.notifyTreeChange();
-      form.setValue('boxName', 'Restake to ezETH')
-    }
-  }
-
-  const handleHigherAPY = () => {
-    const newBox = Box.fromJSON(
-      JSON.parse(`[{\"id\":\"0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"swap\",\"outputToken\":[\"ETH\"]}},{\"id\":\"0-0\",\"data\":{\"inputToken\":[\"ETH\"],\"actionId\":\"lido\",\"outputToken\":[\"stETH\"]}},{\"id\":\"0-0-0\",\"data\":{\"inputToken\":[\"stETH\"],\"actionId\":\"lending-pool\",\"outputToken\":[\"USDC\"]}},{\"id\":\"0-0-0-0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"swap\",\"outputToken\":[\"ETH\"]}}]`)
-    );
-
-    if (newBox.getRoot()) {
-      box.setRoot(newBox.getRoot()!);
-      box.notifyTreeChange();
-      form.setValue('boxName', 'Long ETH')
-    }
-  }
-
-  const handleDeltaNeutra = () => {
-    const newBox = Box.fromJSON(
-      [
-        {
-            "id": "0",
-            "data": {
-                "inputToken": [
-                    "USDC"
-                ],
-                "actionId": "split",
-                "outputToken": [
-                    "USDC",
-                    "USDC"
-                ]
-            }
-        },
-        {
-            "id": "0-0",
-            "data": {
-                "inputToken": [
-                    "USDC"
-                ],
-                "actionId": "swap",
-                "outputToken": [
-                    "ETH"
-                ]
-            }
-        },
-        {
-            "id": "0-0-0",
-            "data": {
-                "inputToken": [
-                    "ETH"
-                ],
-                "actionId": "lido",
-                "outputToken": [
-                    "stETH"
-                ]
-            }
-        },
-        {
-            "id": "0-1",
-            "data": {
-                "inputToken": [
-                    "USDC"
-                ],
-                "actionId": "short-market",
-                "outputToken": [
-                    "Short USDC"
-                ]
-            }
-        }
-    ]);
-
-    if (newBox.getRoot()) {
-      box.setRoot(newBox.getRoot()!);
-      box.notifyTreeChange();
-      form.setValue('boxName', 'Delta Neutra')
-    }
-  }
-
-
-  const items = useMemo(() => [
-    [
+  useEffect(() => {
+    setMessage((prev) => ([
       <DialogItem
         key="targpt-response-1"
         avatar={<TarGPTAvatar />}
@@ -241,7 +121,7 @@ export function TarGPTModal() {
                   </li>
                   <li>
                     <span className="font-bold">Generate a Box:</span> Not sure where to start? Let me see what suits your portfolio and {" "}
-                    <span className="underline font-bold cursor-pointer" onClick={() => setStep(2)}>Generate a Box</span>
+                    <span className="underline font-bold cursor-pointer" onClick={() => handleNormalGenerateBox()}>Generate a Box</span>
                   </li>
                 </ul>
               </div>
@@ -249,8 +129,65 @@ export function TarGPTModal() {
           </div>
         }
       />
-    ],
-    [
+    ]));
+
+    return () => {
+      setMessage([]);
+    }
+  }, []);
+
+  const handleOpenModal = () => {
+    if (typeof window === "undefined") return;
+
+    setOpen(true);
+    // setStep(1);
+
+    const modal = document.getElementById("targpt-modal") as HTMLDialogElement;
+
+    modal.showModal();
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const handleNormalGenerateBox = React.useCallback(() => {
+    function callback() {
+      const newBox = Box.fromJSON(
+        [
+          {
+            "id": "0",
+            "data": {
+              "inputToken": ["USDC"],
+              "actionId": "swap",
+              "outputToken": ["ETH"]
+            }
+          },
+          {
+            "id": "0-0",
+            "data": {
+              "inputToken": ["ETH"],
+              "actionId": "lido",
+              "outputToken": ["stETH"]
+            }
+          },
+          {
+            "id": "0-0-0",
+            "data": {
+              "inputToken": ["stETH"],
+              "actionId": "zenzo",
+              "outputToken": ["ezETH"]
+            }
+          }
+        ]
+      );
+
+      if (newBox.getRoot()) {
+        box.setRoot(newBox.getRoot()!);
+        box.notifyTreeChange();
+        form.setValue('boxName', 'Restake to ezETH')
+      }
+    }
+
+    setMessage((prev) => [
+      ...prev,
       <DialogItem
         key="targpt-response-2-1"
         avatar={<AccountAvatar address={address} className="w-[22px] h-[22px]" />}
@@ -271,22 +208,12 @@ export function TarGPTModal() {
               <TypedText
                 className=""
                 text="Please review the newly created Box. You may save and run it, or provide feedback and I can modify accordingly."
-                onCompletedTyping={handleNormalGenerateBox}
+                onCompletedTyping={callback}
               />
               <div className="my-4">
                 <div className="flex gap-8 mb-2">
-                  <button className="btn btn-primary btn-sm" onClick={() => {
-                    setStep(3);
-                    setTimeout(() => {
-                      handleDeltaNeutra();
-                    }, 2000);
-                  }}>Lower Risk</button>
-                  <button className="btn btn-primary btn-sm" onClick={() => {
-                    setStep(4);
-                    setTimeout(() => {
-                      handleHigherAPY();
-                    }, 2000);
-                  }}>Higher APY</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => handleDeltaNeutra()}>Lower Risk</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => handleHigherAPY()}>Higher APY</button>
                 </div>
                 <p>Provide your feedback for adjustments</p>
               </div>
@@ -294,8 +221,29 @@ export function TarGPTModal() {
           </div>
         }
       />,
-    ],
-    [
+    ])
+  }, [message])
+
+  const handleHigherAPY = React.useCallback(() => {
+    function callback() {
+      const newBox = Box.fromJSON(
+        JSON.parse(`[{\"id\":\"0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"swap\",\"outputToken\":[\"ETH\"]}},{\"id\":\"0-0\",\"data\":{\"inputToken\":[\"ETH\"],\"actionId\":\"lido\",\"outputToken\":[\"stETH\"]}},{\"id\":\"0-0-0\",\"data\":{\"inputToken\":[\"stETH\"],\"actionId\":\"lending-pool\",\"outputToken\":[\"USDC\"]}},{\"id\":\"0-0-0-0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"swap\",\"outputToken\":[\"ETH\"]}}]`)
+      );
+
+      if (newBox.getRoot()) {
+        box.setRoot(newBox.getRoot()!);
+        box.notifyTreeChange();
+        form.setValue('boxName', 'Long ETH')
+      }
+    }
+    setMessage((prev) => [
+      ...prev,
+      <DialogItem
+        key="targpt-response-2-1"
+        avatar={<AccountAvatar address={address} className="w-[22px] h-[22px]" />}
+        content={<span>Higher APY</span>}
+        position="right"
+      />,
       <DialogItem
         key="targpt-response-2-2"
         avatar={<TarGPTAvatar />}
@@ -304,13 +252,113 @@ export function TarGPTModal() {
             <TypedTextFlow>
               <TypedText text="Finding suitable Circuits for overall lower risk Box..." />
               <TypedText text="Box updated🚀" />
-              <TypedText text="Please review the updated created Box with lower overall risk." onCompletedTyping={() => handleDeltaNeutra()} />
+              <TypedText text="Please review the updated created Box with lower overall risk." onCompletedTyping={callback} />
+              <div className="my-4">
+                <div className="flex gap-8 mb-2">
+                  <button className="btn btn-primary btn-sm" onClick={() => handleNormalGenerateBox()}>Normal Risk</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => handleDeltaNeutra()}>Lower Risk</button>
+                </div>
+                <p>Provide your feedback for adjustments</p>
+              </div>
             </TypedTextFlow>
           </div>
         }
       />
-    ]
-  ], [address, handleNormalGenerateBox]);
+    ])
+  }, [message, handleNormalGenerateBox])
+
+  const handleDeltaNeutra = React.useCallback(() => {
+    function callback() {
+      const newBox = Box.fromJSON(
+        [
+          {
+            "id": "0",
+            "data": {
+              "inputToken": [
+                "USDC"
+              ],
+              "actionId": "split",
+              "outputToken": [
+                "USDC",
+                "USDC"
+              ]
+            }
+          },
+          {
+            "id": "0-0",
+            "data": {
+              "inputToken": [
+                "USDC"
+              ],
+              "actionId": "swap",
+              "outputToken": [
+                "ETH"
+              ]
+            }
+          },
+          {
+            "id": "0-0-0",
+            "data": {
+              "inputToken": [
+                "ETH"
+              ],
+              "actionId": "lido",
+              "outputToken": [
+                "stETH"
+              ]
+            }
+          },
+          {
+            "id": "0-1",
+            "data": {
+              "inputToken": [
+                "USDC"
+              ],
+              "actionId": "short-market",
+              "outputToken": [
+                "Short USDC"
+              ]
+            }
+          }
+        ]);
+
+      if (newBox.getRoot()) {
+        box.setRoot(newBox.getRoot()!);
+        box.notifyTreeChange();
+        form.setValue('boxName', 'Delta Neutral')
+      }
+    }
+
+    setMessage((prev) => [
+      ...prev,
+      <DialogItem
+        key="targpt-response-2-1"
+        avatar={<AccountAvatar address={address} className="w-[22px] h-[22px]" />}
+        content={<span>Lower Risk</span>}
+        position="right"
+      />,
+      <DialogItem
+        key="targpt-response-2-2"
+        avatar={<TarGPTAvatar />}
+        content={
+          <div className="text-sm font-normal">
+            <TypedTextFlow>
+              <TypedText text="Finding suitable Circuits for overall lower risk Box..." />
+              <TypedText text="Box updated🚀" />
+              <TypedText text="Please review the updated created Box with lower overall risk." onCompletedTyping={callback} />
+              <div className="my-4">
+                <div className="flex gap-8 mb-2">
+                  <button className="btn btn-primary btn-sm" onClick={() => handleNormalGenerateBox()}>Normal Risk</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => handleHigherAPY()}>Higher APY</button>
+                </div>
+                <p>Provide your feedback for adjustments</p>
+              </div>
+            </TypedTextFlow>
+          </div>
+        }
+      />
+    ])
+  }, [message, handleNormalGenerateBox, handleHigherAPY]);
 
   return (
     <>
@@ -324,7 +372,7 @@ export function TarGPTModal() {
         <div className="modal-box bg-white translate-x-[560px] mt-[200px]">
           <h3 className="font-bold text-lg mb-5">TarGPT Assistant</h3>
           <div className="h-[600px] overflow-auto">
-            {items.slice(0, step)}
+            {message}
           </div>
           <div className="">
             <input placeholder="Message TarGPT" className="input w-full h-[34px] px-4 py-[6px] rounded-[30px] border border-black/40" />

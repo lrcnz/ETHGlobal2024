@@ -9,6 +9,7 @@ import { callsStatusAtom } from "../atoms";
 import useInitBox from "@/hooks/use-init-box";
 import TokenImage from "../../create/components/token-image";
 import { BoxOverview } from "@/app/(pages)/profile/components/box-overview";
+import { TxSuccessModal } from "./tx-success-modal";
 
 export const Detail = () => {
   const params = useParams<{ id: string }>();
@@ -32,8 +33,6 @@ export const Detail = () => {
   const box = useInitBox(content);
   const inputToken = box?.getRoot()?.details?.inputToken || [];
   const [callsStatus] = useAtom(callsStatusAtom);
-
-  console.log(callsStatus);
 
   return (
     <div className="w-full rounded-[20px] p-5 bg-white">
@@ -96,7 +95,7 @@ export const Detail = () => {
             </div>
             <div>
               {
-                callsStatus?.status === "PENDING" ? (
+                callsStatus === "pending" ? (
                   <div role="status" className="mb-2 flex items-center gap-2">
                     <div>
                       <svg aria-hidden="true" className="inline w-4 h-4 text-gray animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -107,18 +106,18 @@ export const Detail = () => {
                     </div>
                     <p className="text-sm font-bold text-black">Runing ...</p>
                   </div>
-                ) : callsStatus?.status === "CONFIRMED" ? (
+                ) : callsStatus === "success" ? (
                   <div className="mb-2 flex items-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6 stroke-success">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                     </svg>
                     <p className="text-sm font-bold text-black">Success</p>
                   </div>
-
                 ) : null
               }
             </div>
             {box && <BoxOverview data={box} id={id} />}
+            <TxSuccessModal name={name} /> 
           </div>
         )
       }
