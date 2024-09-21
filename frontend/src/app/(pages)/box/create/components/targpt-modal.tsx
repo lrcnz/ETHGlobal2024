@@ -30,7 +30,8 @@ const TypedText = ({ text, className, onCompletedTyping }: { text: string, class
     }, 20);
 
     return () => clearInterval(intervalId);
-  }, [text, onCompletedTyping]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [text]);
 
   return (
     <div className={className}>
@@ -91,7 +92,7 @@ export function TarGPTModal() {
   const { address } = useAccount();
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState(1);
-  const { box } = useCreateContext();
+  const { box, form } = useCreateContext();
 
   const handleOpenModal = () => {
     if (typeof window === "undefined") return;
@@ -104,13 +105,41 @@ export function TarGPTModal() {
     modal.showModal();
   }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleNormalGenerateBox = () => {
     const newBox = Box.fromJSON(
-      [{ "id": "0", "data": { "inputToken": ["USDC"], "actionId": "swap", "outputToken": ["ETH"] } }, { "id": "0-0", "data": { "inputToken": ["ETH"], "actionId": "split", "outputToken": ["ETH", "ETH"] } }, { "id": "0-0-0", "data": { "inputToken": ["ETH"], "actionId": "lido", "outputToken": ["stETH"] } }, { "id": "0-0-0-0", "data": { "inputToken": ["stETH"], "actionId": "zenzo", "outputToken": ["ezETH"] } }, { "id": "0-0-1", "data": { "inputToken": ["ETH"], "actionId": "short-market", "outputToken": ["Short ETH"] } }]
+      [
+        {
+          "id": "0",
+          "data": {
+            "inputToken": ["USDC"],
+            "actionId": "swap",
+            "outputToken": ["ETH"]
+          }
+        },
+        {
+          "id": "0-0",
+          "data": {
+            "inputToken": ["ETH"],
+            "actionId": "lido",
+            "outputToken": ["stETH"]
+          }
+        },
+        {
+          "id": "0-0-0",
+          "data": {
+            "inputToken": ["stETH"],
+            "actionId": "zenzo",
+            "outputToken": ["ezETH"]
+          }
+        }
+      ]
     );
+
     if (newBox.getRoot()) {
       box.setRoot(newBox.getRoot()!);
       box.notifyTreeChange();
+      form.setValue('boxName', 'Restake to ezETH')
     }
   }
 
@@ -173,8 +202,8 @@ export function TarGPTModal() {
               />
               <div className="my-4">
                 <div className="flex gap-8 mb-2">
-                  <button onClick={() => setStep(3)}>Lower Risk</button>
-                  <button onClick={() => setStep(3)}>Higher APY</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => setStep(3)}>Lower Risk</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => setStep(3)}>Higher APY</button>
                 </div>
                 <p>Provide your feedback for adjustments</p>
               </div>

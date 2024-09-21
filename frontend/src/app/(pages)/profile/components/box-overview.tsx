@@ -24,6 +24,14 @@ const getBackgroundColor = (index: number) => {
   }
 }
 
+const getFillColor = (index: number) => {
+  switch (index % 3) {
+    case 0: return 'fill-[#F7F9C6]';
+    case 1: return 'fill-[#E4E8FC]';
+    case 2: return 'fill-[#E4F2F1]';
+  }
+}
+
 function BoxItem({ id, data, index }: BoxItemProps) {
   const actionManager = useActionManager();
 
@@ -73,14 +81,14 @@ function BoxItem({ id, data, index }: BoxItemProps) {
                           <p className="font-bold">{token}</p>
                         </div>
                         <svg
-                          className="absolute -right-4"
+                          className={twMerge("absolute -right-4", getFillColor(index))}
                           xmlns="http://www.w3.org/2000/svg"
                           style={{ top: 104 * (circuitCount) + 'px' }}
                           width={17}
                           height={104}
                           fill="none"
                         >
-                          <path fill="#F7F9C6" d="M.666 104V0l16 52-16 52Z" />
+                          <path d="M.666 104V0l16 52-16 52Z" />
                         </svg>
                       </React.Fragment>
                     )
