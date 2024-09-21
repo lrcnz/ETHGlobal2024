@@ -1,4 +1,4 @@
-import {  PublicClient } from "viem";
+import { PublicClient } from "viem";
 import { ActionManager } from "../actions/manager";
 import { Circuit } from "./circuit";
 import { CircuitData } from "./types";

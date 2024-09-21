@@ -16,3 +16,11 @@ export interface CircuitRecord {
 }
 
 export type CreatedBoxRecord = CircuitRecord[];
+
+export interface UserCreatedBoxData {
+  name: string;
+  creator: string;
+  data: CreatedBoxRecord;
+};
+
+export type UserCreatedBoxRecord = { [key in string]: UserCreatedBoxData };

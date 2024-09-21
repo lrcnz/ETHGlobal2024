@@ -15,8 +15,9 @@ export function useWalletInformation() {
       );
 
       return res.json();
-    }
+    },
+    enabled: !!token?.userToken
   });
 
-  console.log(data);
+  return data;
 }
