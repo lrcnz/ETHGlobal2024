@@ -10,7 +10,10 @@
   },
   "dependencies": {
     "@circle-fin/user-controlled-wallets": "^4.4.1",
+    "@circle-fin/w3s-pw-web-sdk": "^1.1.5",
+    "@hookform/resolvers": "^3.9.0",
     "@prisma/client": "^5.19.1",
+    "@tanstack/react-query": "5.17.19",
     "immer": "^10.1.1",
     "jotai": "^2.10.0",
     "jotai-immer": "^0.4.1",
@@ -19,7 +22,10 @@
     "pino": "^9.4.0",
     "prisma": "^5.19.1",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "react-hook-form": "^7.53.0",
+    "tailwind-merge": "^2.5.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/node": "^20",

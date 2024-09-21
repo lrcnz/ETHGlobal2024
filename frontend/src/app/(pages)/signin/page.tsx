@@ -1,3 +1,5 @@
+'use client';
+
 import SigninCard from "./components/sign-in-card";
 
 function Page () {

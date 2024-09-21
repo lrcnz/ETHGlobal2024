@@ -1,13 +1,7 @@
-import { createStore, Provider as StorageProvider } from 'jotai';
-
-const store = createStore();
-
-export default function Home({ children }: { children: React.ReactNode }) {
+export default function HomePage ({ children }: { children: React.ReactNode }) {
   return (
     <div>
-      <StorageProvider store={store}>
-        {children}
-      </StorageProvider>
+      {children}
     </div>
   );
 }
