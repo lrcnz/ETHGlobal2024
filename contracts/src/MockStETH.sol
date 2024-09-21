@@ -229,16 +229,19 @@ contract StETH is IERC20 {
     function deposit() public payable returns (uint256) {
         uint256 sharesAmount = totalShares == 0
             ? msg.value
-            : getSharesByPooledEth(msg.value);
+            : msg.value.mul(totalShares).div(
+                getTotalPooledEther().sub(msg.value)
+            );
         _mintShares(msg.sender, sharesAmount);
 
         return sharesAmount;
     }
 
     function withdraw(uint256 shareAmount) public returns (uint256) {
+        uint256 amount = getPooledEthByShares(shareAmount);
+
         _burnShares(msg.sender, shareAmount);
 
-        uint256 amount = getPooledEthByShares(shareAmount);
         payable(msg.sender).transfer(amount);
 
         return amount;
@@ -247,12 +250,17 @@ contract StETH is IERC20 {
     function submit(address _referral) external payable returns (uint256) {
         require(msg.value != 0, "ZERO_DEPOSIT");
 
-        uint256 sharesAmount = getSharesByPooledEth(msg.value);
-
+        uint256 sharesAmount = totalShares == 0
+            ? msg.value
+            : msg.value.mul(totalShares).div(
+                getTotalPooledEther().sub(msg.value)
+            );
         _mintShares(msg.sender, sharesAmount);
 
         return sharesAmount;
     }
+
+    fallback() external payable {}
 }
 
 interface IStETH is IERC20 {
