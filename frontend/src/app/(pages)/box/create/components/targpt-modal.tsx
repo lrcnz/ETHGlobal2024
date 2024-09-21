@@ -224,6 +224,75 @@ export function TarGPTModal() {
         }
       />,
     ])
+  }, [message]);
+
+  const handleNormal = React.useCallback(() => {
+    function callback() {
+      const newBox = Box.fromJSON(
+        [
+          {
+            "id": "0",
+            "data": {
+              "inputToken": ["USDC"],
+              "actionId": "swap",
+              "outputToken": ["ETH"]
+            }
+          },
+          {
+            "id": "0-0",
+            "data": {
+              "inputToken": ["ETH"],
+              "actionId": "lido",
+              "outputToken": ["stETH"]
+            }
+          },
+          {
+            "id": "0-0-0",
+            "data": {
+              "inputToken": ["stETH"],
+              "actionId": "zenzo",
+              "outputToken": ["ezETH"]
+            }
+          }
+        ]
+      );
+
+      if (newBox.getRoot()) {
+        box.setRoot(newBox.getRoot()!);
+        box.notifyTreeChange();
+        form.setValue('boxName', 'Restake to ezETH')
+      }
+    }
+
+    setMessage((prev) => [
+      ...prev,
+      <DialogItem
+        key="targpt-response-2-1"
+        avatar={<AccountAvatar address={address} className="w-[22px] h-[22px]" />}
+        content={<span>Normal Risk</span>}
+        position="right"
+      />,
+      <DialogItem
+        key="targpt-response-1"
+        avatar={<TarGPTAvatar />}
+        content={
+          <div className="text-sm font-normal">
+            <TypedTextFlow>
+              <TypedText text="Finding suitable Circuits for overall lower risk Box..." />
+              <TypedText text="Box updated🚀" />
+              <TypedText text="Please review the updated created Box with lower overall risk." onCompletedTyping={callback} />
+              <div className="my-4">
+                <div className="flex gap-8 mb-2">
+                  <button className="btn btn-primary btn-sm" onClick={() => handleDeltaNeutra()}>Lower Risk</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => handleHigherAPY()}>Higher APY</button>
+                </div>
+                <p>Provide your feedback for adjustments</p>
+              </div>
+            </TypedTextFlow>
+          </div>
+        }
+      />,
+    ])
   }, [message])
 
   const handleHigherAPY = React.useCallback(() => {
@@ -257,7 +326,7 @@ export function TarGPTModal() {
               <TypedText text="Please review the updated created Box with lower overall risk." onCompletedTyping={callback} />
               <div className="my-4">
                 <div className="flex gap-8 mb-2">
-                  <button className="btn btn-primary btn-sm" onClick={() => handleNormalGenerateBox()}>Normal Risk</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => handleNormal()}>Normal Risk</button>
                   <button className="btn btn-primary btn-sm" onClick={() => handleDeltaNeutra()}>Lower Risk</button>
                 </div>
                 <p>Provide your feedback for adjustments</p>
@@ -350,7 +419,7 @@ export function TarGPTModal() {
               <TypedText text="Please review the updated created Box with lower overall risk." onCompletedTyping={callback} />
               <div className="my-4">
                 <div className="flex gap-8 mb-2">
-                  <button className="btn btn-primary btn-sm" onClick={() => handleNormalGenerateBox()}>Normal Risk</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => handleNormal()}>Normal Risk</button>
                   <button className="btn btn-primary btn-sm" onClick={() => handleHigherAPY()}>Higher APY</button>
                 </div>
                 <p>Provide your feedback for adjustments</p>

@@ -23,7 +23,7 @@ export function BoxCard({ id, name, creatorAddress, content, apy }: BoxCardProps
     router.push(`/box/${id}`);
   }
   const handleUnstake = (e: any) => {
-    router.push(`/box/create?content=unstake&name=unstake`);
+    router.push(`/box/create?content=unstake&name=unstake&from=${name}`);
     e.preventDefault();
     e.stopPropagation();
   }

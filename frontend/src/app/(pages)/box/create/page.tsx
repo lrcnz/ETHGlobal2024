@@ -9,6 +9,7 @@ import { useCreateContext } from "./hooks/use-create-context";
 import { Circuit } from "@/lib/box/circuit";
 import { useWatch } from "react-hook-form";
 import { Box } from "@/lib/box/box";
+import { ExitTarGPTModal } from "./components/exit-targpt-modal";
 
 const CreatePage = () => {
   const { box, setActiveCircuit, setDepth, form, setBox } = useCreateContext();
@@ -28,11 +29,16 @@ const CreatePage = () => {
         const box = Box.fromJSON(JSON.parse(content));
 
         setBox(box);
-        form.setValue('boxName', 'Unstake ezETH to USDC');
+        form.setValue('boxName', 'Exit Box');
+
         if (box.getRoot()) {
           setActiveCircuit(box.getRoot()!.getId());
           setDepth(box.getDepth());
         }
+
+        const exitModal = document.getElementById('exit-targpt-modal') as HTMLDialogElement;
+
+        exitModal.showModal();
 
         return;
       }
@@ -70,6 +76,7 @@ const CreatePage = () => {
       <NameField className="mb-[10px]" />
       <BoxField className="mb-4" />
       <CircuitEdit />
+      <ExitTarGPTModal />
     </div>
   );
 }
