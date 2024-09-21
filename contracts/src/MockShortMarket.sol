@@ -84,7 +84,6 @@ contract MockShortMarket {
         if (position.openPrice >= price) {
             require(msg.sender == owner, "alive position");
 
-            // 有盈利
             uint256 priceDifference = position.openPrice - price;
             uint256 profit = (priceDifference *
                 position.depositAmount *

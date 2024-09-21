@@ -142,7 +142,6 @@ contract MockLendingPool {
         }
     }
 
-    // 获取用户所有 reserve 的总价值
     function getReserveValueByAddress(
         address who
     ) public view returns (uint256) {
@@ -158,7 +157,6 @@ contract MockLendingPool {
         return totalValue;
     }
 
-    // 获取用户所有 debt 的总价值
     function getDebtValueByAddress(address who) public view returns (uint256) {
         uint256 totalValue = 0;
 
@@ -172,7 +170,6 @@ contract MockLendingPool {
         return totalValue;
     }
 
-    // 存款函数，将 msg.sender 的 reserveToken 存入，并计入 onBehalfOf 的 reserve 中
     function deposit(
         address reserveToken,
         uint256 amount,
@@ -190,11 +187,9 @@ contract MockLendingPool {
             "Transfer failed"
         );
 
-        // 增加 onBehalfOf 的 reserve
         _increaseReserve(onBehalfOf, reserveToken, amount);
     }
 
-    // 提款函数，提取 msg.sender 记录下的 reserveToken，并转移给 onBehalfOf
     function withdraw(
         address reserveToken,
         uint256 amount,
@@ -202,10 +197,8 @@ contract MockLendingPool {
     ) external {
         require(amount > 0, "Amount must be greater than 0");
 
-        // 减少 msg.sender 的 reserve
         _decreaseReserve(msg.sender, reserveToken, amount);
 
-        // 检查 debt 和 reserve 之间的比例
         uint256 debtValue = getDebtValueByAddress(msg.sender);
         uint256 reserveValue = getReserveValueByAddress(msg.sender);
         require(
@@ -220,7 +213,6 @@ contract MockLendingPool {
         );
     }
 
-    // 借款函数，从合约转移指定数量的资产给 onBehalfOf，并增加 msg.sender 的 debt
     function borrow(
         address asset,
         uint256 amount,
@@ -228,10 +220,8 @@ contract MockLendingPool {
     ) external {
         require(amount > 0, "Amount must be greater than 0");
 
-        // 增加 msg.sender 的 debt
         _increaseDebt(msg.sender, asset, amount);
 
-        // 检查 debt 和 reserve 之间的比例
         uint256 debtValue = getDebtValueByAddress(msg.sender);
         uint256 reserveValue = getReserveValueByAddress(msg.sender);
         require(
@@ -243,14 +233,11 @@ contract MockLendingPool {
         require(IERC20(asset).transfer(onBehalfOf, amount), "Transfer failed");
     }
 
-    // 还款函数，从 msg.sender 转移指定数量的资产到合约，并减少 onBehalfOf 的 debt
     function repay(address asset, uint256 amount, address onBehalfOf) external {
         require(amount > 0, "Amount must be greater than 0");
 
-        // 获取 onBehalfOf 的当前债务
         uint256 debtAmount = debt[onBehalfOf][asset];
 
-        // 实际还款数量取 `amount` 和 `debtAmount` 之间的较小值
         uint256 actualAmount = amount > debtAmount ? debtAmount : amount;
 
         // Transfer tokens from msg.sender to this contract
@@ -259,7 +246,6 @@ contract MockLendingPool {
             "Transfer failed"
         );
 
-        // 减少 onBehalfOf 的 debt
         _decreaseDebt(onBehalfOf, asset, actualAmount);
     }
 }
