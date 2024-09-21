@@ -44,20 +44,27 @@ const SigninCard = () => {
       setUserToken((data) => {
         return {
           ...data,
+          userId: res.data.userId,
           userToken: res.data.userToken,
           encryptionKey: res.data.encryptionKey
         };
       });
 
-      client.execute(res.data.challengeId, (err, res) => {
-        console.log(err, res);
-        if (err) {
-          console.error(err);
-          return;
-        }
+      if (res.data.challengeId) {
+        client.execute(res.data.challengeId, (err, res) => {
+          console.log(err, res);
+          if (err) {
+            console.error(err);
+            return;
+          }
 
+          router.push("/dashboard");
+        });
+      } else {
         router.push("/dashboard");
-      });
+
+      }
+
     } catch (e) {
       console.error(e);
     }

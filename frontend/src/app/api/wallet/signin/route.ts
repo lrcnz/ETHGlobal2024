@@ -10,8 +10,6 @@ export async function POST(req: NextRequest) {
     where: { email: email }
   });
 
-  console.log(users);
-
   if (users.length !== 0) {
     const user = users[0];
 
