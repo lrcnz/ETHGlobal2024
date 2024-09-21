@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { useWalletInformation } from "./use-wallet-information";
 
 export function useAllBoxList() {
 

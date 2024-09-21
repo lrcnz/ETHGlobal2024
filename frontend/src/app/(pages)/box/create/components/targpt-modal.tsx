@@ -1,3 +1,5 @@
+// disable eslint for this file
+/* eslint-disable */
 import * as React from "react";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { TarGPTAvatar } from "./targpt-icon";

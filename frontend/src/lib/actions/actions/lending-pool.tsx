@@ -30,12 +30,13 @@ export class LendingPool implements Action {
     return token === 'ezETH' || token === 'stETH';
   }
 
-  public getAPY(data: CircuitData): number {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public getAPY(_data: CircuitData): number {
     return 0.01;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public getOutputToken(data: CircuitData): CircuitOutput {
+  public getOutputToken(_data: CircuitData): CircuitOutput {
     return ['USDC'];
   }
 
@@ -48,13 +49,13 @@ export class LendingPool implements Action {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public getNextCircuit(data: CircuitData): Circuit[] {
+  public getNextCircuit(_data: CircuitData): Circuit[] {
     return [
       new Circuit({ inputToken: ['USDC'] }),
     ];
   }
 
-  public async getContracts(amount: bigint, address: string, data: CircuitData, publicClient: PublicClient): Promise<Contracts> {
+  public async getContracts(amount: bigint, address: string, _data: CircuitData, publicClient: PublicClient): Promise<Contracts> {
     const price = await publicClient.readContract({
       address: this.contractAddress,
       abi: LENDING_POOL_ABI,
@@ -88,8 +89,8 @@ export class LendingPool implements Action {
 
   public async getSimulateOutput(
     amount: bigint,
-    address: string,
-    data: CircuitData,
+    _address: string,
+    _data: CircuitData,
     publicClient: PublicClient
   ): Promise<bigint[]> {
     const price = await publicClient.readContract({

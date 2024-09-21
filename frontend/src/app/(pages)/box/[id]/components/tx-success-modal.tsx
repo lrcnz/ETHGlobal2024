@@ -1,21 +1,3 @@
-import { Box } from "@/lib/box/box";
-import { useEffect, useId } from "react";
-import { usePublicClient } from "wagmi";
-import { useForm, useWatch } from "react-hook-form";
-import { twMerge } from "tailwind-merge";
-import { useAtom } from "jotai";
-import { callsStatusAtom } from "../atoms";
-import { encodeFunctionData, parseUnits } from "viem";
-import { useActionManager } from "@/hooks/ues-action-manager";
-import { UserCreatedBoxData } from "@/lib/box/types";
-import { useBalance } from "@/hooks/use-balance";
-import { formatBalance } from "@/utils/format-balance";
-import { useWalletInformation } from "@/hooks/use-wallet-information";
-import { useMutation } from "@tanstack/react-query";
-import { useUserToken } from "@/hooks/use-user-token";
-import { useW3SClient } from "@/hooks/use-w3s-client";
-
-
 export function TxSuccessModal({ name }: { name: string }) {
   return (
     <dialog id="tx-success-modal" className="modal">

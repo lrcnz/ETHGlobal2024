@@ -39,7 +39,8 @@ export class UnstakeLidoAction implements Action {
     return !!inputToken && inputToken.length === 1 && inputToken[0] === "stETH";
   }
 
-  public getAPY(data: CircuitData): number {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  public getAPY(_data: CircuitData): number {
     return 0;
   }
 

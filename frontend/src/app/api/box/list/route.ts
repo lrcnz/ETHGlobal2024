@@ -1,9 +1,6 @@
-import { NextRequest } from "next/server";
-import { getAllBoxList, getBoxListByCreatorAddress } from "../servers";
+import { getAllBoxList } from "../servers";
 
-export async function GET(
-  request: NextRequest,
-) {
+export async function GET() {
   try {
     const data = await getAllBoxList();
 
