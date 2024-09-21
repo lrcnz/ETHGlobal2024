@@ -11,6 +11,9 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        safe: "#13DC91",
+        medium: "#F2DB89",
+        risky: "#EE4E4E"
       },
     },
   },
