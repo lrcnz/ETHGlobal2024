@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Circuit } from "@/lib/box/circuit";
 import { Action, Contracts } from "../types";
 import { getTokenAddress, SHORT_MARKET, WETH_ADDRESS } from "@/configs/contracts";

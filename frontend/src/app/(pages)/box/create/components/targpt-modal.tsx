@@ -9,7 +9,7 @@ import AccountAvatar from "@/components/account-avatar";
 
 const TypedText = ({ text, className, onCompletedTyping }: { text: string, className?: string, onCompletedTyping?: () => void }) => {
   const [displayResponse, setDisplayResponse] = useState("");
-  const [completedTyping, setCompletedTyping] = useState(false);
+  const [, setCompletedTyping] = useState(false);
 
   useEffect(() => {
     setCompletedTyping(false);
@@ -56,7 +56,6 @@ const TypedTextFlow = ({ className, children }: { className?: string, children: 
       });
     });
   }, [children]);
-  const len = content.length;
 
   return (
     <div className={className}>
@@ -199,7 +198,7 @@ export function TarGPTModal() {
         }
       />
     ]
-  ], [address]);
+  ], [address, handleNormalGenerateBox]);
 
   return (
     <>

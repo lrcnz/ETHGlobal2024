@@ -1,6 +1,5 @@
 import { useSaveBox } from "../hooks/use-save-box";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
 
 const Header = ({ className }: { className: string }): JSX.Element => {
   const router = useRouter();
@@ -9,7 +8,7 @@ const Header = ({ className }: { className: string }): JSX.Element => {
     router.push("/profile");
   };
 
-  const { handleSave, isLoading } = useSaveBox(handleGoBack);
+  const { handleSave } = useSaveBox(handleGoBack);
 
   return (
     <div className={className}>

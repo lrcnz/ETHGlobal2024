@@ -1,9 +1,6 @@
 import * as React from "react";
 import { useCreateContext } from "./use-create-context";
-import { RiskLevel } from "@/lib/actions/types";
 import { useActionManager } from "@/hooks/ues-action-manager";
-
-const RISK_LEVELS: RiskLevel[] = ["safe", "medium", "risk"];
 
 export function useBoxAPY () {
   const [apy, setAPY] = React.useState<number>(0);

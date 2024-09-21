@@ -3,7 +3,7 @@ import { Action, Contracts } from "../types";
 import { CircuitData, CircuitOutput } from "@/lib/box/types";
 import { CommonOutputPreview } from "./utils/common-output-preview";
 import { PublicClient } from "viem";
-import { EZ_ETH_ADDRESS, LENDING_POOL, ST_ETH_ADDRESS, USDT_ADDRESS } from "@/configs/contracts";
+import { EZ_ETH_ADDRESS, LENDING_POOL, USDT_ADDRESS } from "@/configs/contracts";
 import { LENDING_POOL_ABI } from "./abis/lend-pool";
 import { ERC20_ABI } from "./abis/erc20";
 
@@ -30,6 +30,7 @@ export class LendingPool implements Action {
     return token === 'ezETH';
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getOutputToken(data: CircuitData): CircuitOutput {
     return ['USDT'];
   }
@@ -42,6 +43,7 @@ export class LendingPool implements Action {
     return Preview;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getNextCircuit(data: CircuitData): Circuit[] {
     return [
       new Circuit({ inputToken: ['USDT'] }),

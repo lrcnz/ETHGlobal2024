@@ -1,4 +1,3 @@
-import { useAccount } from "wagmi";
 import { useCreateContext } from "./use-create-context";
 import { useMutation } from "@tanstack/react-query";
 import { useBoxAPY } from "./use-box-apy";

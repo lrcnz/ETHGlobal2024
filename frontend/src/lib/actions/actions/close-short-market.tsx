@@ -4,8 +4,6 @@ import { getTokenAddress, SHORT_MARKET, WETH_ADDRESS } from "@/configs/contracts
 import { CircuitData, CircuitOutput } from "@/lib/box/types";
 import { CommonOutputPreview } from "./utils/common-output-preview";
 import { PublicClient } from "viem";
-import { WETH_ABI } from "./abis/weth";
-import { ERC20_ABI } from "./abis/erc20";
 import { SHORT_MARKET_ABI } from "./abis/short-market";
 
 export class CloseShortMarket implements Action {
@@ -47,10 +45,12 @@ export class CloseShortMarket implements Action {
     return Preview;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getNextCircuit(data: CircuitData): Circuit[] {
     return [];
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public async getContracts(amount: bigint, address: string, data: CircuitData, publicClient: PublicClient): Promise<Contracts> {
     const inputToken = data.inputToken?.[0];
     const isETH = inputToken === 'ETH';
@@ -68,6 +68,7 @@ export class CloseShortMarket implements Action {
     return result as Contracts;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getDirectOutput(_amount: bigint, _data: CircuitData): bigint[] {
     return [BigInt(0)];
   }

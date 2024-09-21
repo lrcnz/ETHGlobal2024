@@ -20,7 +20,7 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
   const id = useId();
   const wallet = useWalletInformation();
   const actionManager = useActionManager();
-  const inputToken = data[0].data.inputToken[0];
+  const inputToken = data?.[0]?.data?.inputToken?.[0];
   const balance = useBalance(inputToken);
   const publicClient = usePublicClient();
   const form = useForm();

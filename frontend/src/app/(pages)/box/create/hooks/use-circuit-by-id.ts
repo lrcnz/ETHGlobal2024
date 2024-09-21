@@ -7,7 +7,7 @@ export function useCircuitById(id: string) {
 
   React.useEffect(() => {
     setData(box.findCircuitById(id));
-  }, [id]);
+  }, [id, box]);
 
   React.useEffect(() => {
     const fn = () => setData(box.findCircuitById(id));
