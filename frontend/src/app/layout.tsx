@@ -32,7 +32,7 @@ export default function RootLayout({
       >
         <Providers>
           <Header />
-          <main className="max-w-[920px] min-h-screen m-auto">
+          <main className="max-w-[1120px] min-h-screen m-auto">
             {children}
           </main>
         </Providers>

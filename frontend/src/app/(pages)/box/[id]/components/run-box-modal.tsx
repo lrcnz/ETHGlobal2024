@@ -1,23 +1,24 @@
 import { Box } from "@/lib/box/box";
 import { useEffect, useId } from "react";
-import { useAccount, usePublicClient } from "wagmi";
-import { useCallsStatus, useWriteContracts } from 'wagmi/experimental'
+import { usePublicClient } from "wagmi";
 import { useForm, useWatch } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 import { useAtom } from "jotai";
 import { callsStatusAtom } from "../atoms";
-import { parseUnits } from "viem";
+import { encodeFunctionData, parseUnits } from "viem";
 import { useActionManager } from "@/hooks/ues-action-manager";
 import { UserCreatedBoxData } from "@/lib/box/types";
 import { useBalance } from "@/hooks/use-balance";
 import { formatBalance } from "@/utils/format-balance";
 import { useWalletInformation } from "@/hooks/use-wallet-information";
+import { useMutation } from "@tanstack/react-query";
+import { useUserToken } from "@/hooks/use-user-token";
+import { useW3SClient } from "@/hooks/use-w3s-client";
 
 
 export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBoxData['data'] }) {
   const id = useId();
   const wallet = useWalletInformation();
-  const account = useAccount();
   const actionManager = useActionManager();
   const inputToken = data[0].data.inputToken[0];
   const balance = useBalance(inputToken);
@@ -25,6 +26,8 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
   const form = useForm();
   const watchAmount = useWatch({ control: form.control, name: "amount" });
   const [, setCallsStatus] = useAtom(callsStatusAtom);
+  const userToken = useUserToken();
+  const client = useW3SClient();
 
   useEffect(() => {
     if (watchAmount) form.trigger(['amount']);
@@ -38,13 +41,29 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
     form.reset({ amount: "" });
     setCallsStatus(null);
   }
+  const mutation = useMutation({
+    mutationKey: ['send-tx'],
+    mutationFn: async (data: unknown) => {
+      const response = await fetch('/api/tx/callContract', {
+        method: 'POST',
+        headers: {
+          token: userToken?.[0]?.userToken || "",
+        },
+        body: JSON.stringify(data)
+      });
+
+      return response.json();
+    }
+  })
 
   const handleSend: React.MouseEventHandler = async (e) => {
     // prevent form submission first
     e.preventDefault();
     const address = wallet?.data?.address;
+    const walletId = wallet?.data?.id;
+    const userTokenStr = userToken?.[0]?.userToken
 
-    if (!actionManager || !publicClient || !address) return;
+    if (!actionManager || !publicClient || !address || !walletId || !userTokenStr) return;
 
     // trigger form validation
     await form.trigger(['amount']);
@@ -59,7 +78,32 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
       const parsed = parseUnits(amount.toString(), balance?.decimals || 18);
       const contracts = await box.execute(actionManager, publicClient, address, [parsed]);
 
-      console.log(contracts)
+      console.log(contracts);
+      const params = contracts.map((item) => {
+        return [
+          item.address,
+          item?.value?.toString() || '0',
+          encodeFunctionData({
+            abi: item.abi,
+            functionName: item.functionName,
+            args: item.args
+          })
+        ];
+      });
+
+      const response = await mutation.mutateAsync({
+        "abiParameters": [[...params]],
+        "abiFunctionSignature": "executeBatch((address,uint,bytes)[])",
+        contractAddress: address,
+        walletId: walletId,
+        feeLevel: "LOW",
+      });
+
+      console.log(response);
+
+      client?.execute(response.data.challengeId, (err) => {
+        console.log(err);
+      });
 
       // writeContracts({ contracts: contracts });
     } catch (e) {
@@ -79,7 +123,7 @@ export function RunBoxButton({ data, name }: { name: string; data: UserCreatedBo
           <div className="mb-10">
             <label htmlFor={`run-amount-${id}`} className="label text-sm font-semibold mb-2">
               Amount
-                <div className="text-sm font-bold text-black/60 ">{formatBalance(balance.balance, balance.decimals)} {inputToken}</div>
+              <div className="text-sm font-bold text-black/60 ">{formatBalance(balance.balance, balance.decimals)} {inputToken}</div>
             </label>
             <div className={twMerge("input input-bordered w-full h-12 flex items-center gap-2", form.formState.errors.amount ? "input-error" : "")}>
               <input

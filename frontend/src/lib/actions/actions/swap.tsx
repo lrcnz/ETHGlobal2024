@@ -1,4 +1,4 @@
-import { Action, Contracts, Logic } from "../types";
+import { Action, Contracts } from "../types";
 import { Token, ChainId, CurrencyAmount, TradeType, Percent } from "@uniswap/sdk-core";
 import { Pair, Route, Trade } from "@uniswap/v2-sdk"
 import { Address, parseUnits, PublicClient } from "viem";
@@ -193,6 +193,8 @@ export class SwapAction implements Action {
         args: [this.contractAddress, amount]
       });
     }
+
+    console.log(isInputTokenETH, isOutputTokenETH);
 
     // input is eth and output is token
     if (isInputTokenETH && !isOutputTokenETH) {

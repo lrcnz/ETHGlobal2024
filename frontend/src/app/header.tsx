@@ -20,19 +20,19 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="relative p-5 shadow-[0px_0px_6px_0px_rgba(0,0,0,0.12)] ">
+    <header className="relative p-5 shadow-[0px_0px_6px_0px_rgba(0,0,0,0.12)] bg-black ">
       <div className="w-full h-full flex items-center justify-between">
         <TardisLogo />
       </div>
       <div className="absolute top-0 h-full left-[50%] -translate-x-[50%] flex items-center justify-center gap-10">
         <Link
           href="/dashboard"
-          className={isActive('/', pathname) ? "text-sm text-black font-bold" : "text-sm text-black/60"}
+          className={isActive('/', pathname) ? "text-sm font-bold text-base-200" : "text-sm text-base-200"}
         >
           Find Box
         </Link>
         <Link href="/profile"
-          className={isActive('/profile', pathname) ? "text-sm text-black font-bold" : "text-sm text-black/60"}>
+          className={isActive('/profile', pathname) ? "text-sm font-bold text-base-200" : "text-sm text-base-200"}>
           My Box
         </Link>
       </div>

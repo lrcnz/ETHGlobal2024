@@ -4,11 +4,11 @@ export async function POST(req: Response) {
   const body = await req.json();
   const headers = req.headers;
 
+  // circle-sdk: create user transaction contract execution challenge
   const response = await userControlledWalletsClient.createUserTransactionContractExecutionChallenge({
     userToken: headers.get('token') as string,
     abiFunctionSignature: body.abiFunctionSignature,
     abiParameters: body.abiParameters,
-    // callData: req.body.callData,
     amount: body.amount,
     contractAddress: body.contractAddress,
     idempotencyKey: body.idempotencyKey,
@@ -22,5 +22,7 @@ export async function POST(req: Response) {
     }
   });
 
-  return Response.json({ result: "success", data: response }, { status: 200 });
+  return Response.json({ result: "success", data: {
+    challengeId: response.data?.challengeId
+  }}, { status: 200 });
 }
