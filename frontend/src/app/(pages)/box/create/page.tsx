@@ -25,7 +25,6 @@ const CreatePage = () => {
       const content = searchParams.get('content') === 'unstake' ? '[{\"id\":\"0\",\"data\":{\"inputToken\":[\"ezETH\"],\"params\":{},\"actionId\":\"unstake-zenzo\",\"outputToken\":[\"stETH\"]}},{\"id\":\"0-0\",\"data\":{\"inputToken\":[\"stETH\"],\"actionId\":\"unstake-lido\",\"outputToken\":[\"ETH\"]}},{\"id\":\"0-0-0\",\"data\":{\"inputToken\":[\"ETH\"],\"actionId\":\"swap\",\"outputToken\":[\"USDC\"]}}]' : '';
 
       if (content) {
-        console.log(JSON.parse(content));
         const box = Box.fromJSON(JSON.parse(content));
 
         setBox(box);

@@ -12,10 +12,12 @@ interface BoxCardProps {
   name: string;
   content: string;
   creatorAddress: string;
-  apy: number
+  apy: number;
+  showUnstakeBtn?: boolean;
+  showFlowData?: boolean;
 }
 
-export function BoxCard({ id, name, creatorAddress, content, apy }: BoxCardProps) {
+export function BoxCard({ id, name, creatorAddress, content, apy, showUnstakeBtn = true, showFlowData = false }: BoxCardProps) {
   const router = useRouter();
   const box = useInitBox(content);
   const inputToken = box?.getRoot()?.details?.inputToken || [];
@@ -54,7 +56,7 @@ export function BoxCard({ id, name, creatorAddress, content, apy }: BoxCardProps
         </div>
         <div>
           {
-            name === 'Restake to ezETH' && <button className="btn btn-outline btn-sm btn-primary" onClick={handleUnstake}>Unstake</button>
+            showUnstakeBtn && name === 'Restake to ezETH' && <button className="btn btn-outline btn-sm btn-primary" onClick={handleUnstake}>Unstake</button>
           }
         </div>
       </div>
@@ -83,6 +85,24 @@ export function BoxCard({ id, name, creatorAddress, content, apy }: BoxCardProps
             <div className="text-black text-lg font-normal leading-[18px]">{(apy * 100).toFixed(2)}%</div>
           </div>
         </div>
+        {
+          showFlowData ? (
+            <>
+              <div className="h-[72px] p-4 bg-neutral-100 rounded-[20px] flex-col justify-start items-start gap-2 inline-flex">
+                <div className="text-black/40 text-sm font-bold font-['Roboto'] leading-[14px]">Total Volume</div>
+                <div className="text-right text-black text-lg font-normal font-['Roboto'] leading-[18px]">{(Math.random() * 10).toFixed(2)}M</div>
+              </div>
+              <div className="h-[72px] p-4 bg-neutral-100 rounded-[20px] flex-col justify-start items-start gap-2 inline-flex">
+                <div className="text-black/40 text-sm font-bold font-['Roboto'] leading-[14px]">Box tx</div>
+                <div className="text-right text-black text-lg font-normal font-['Roboto'] leading-[18px]">{(Math.random() * 10).toFixed(2)}K</div>
+              </div>
+              <div className="h-[72px] p-4 bg-neutral-100 rounded-[20px] flex-col justify-start items-start gap-2 inline-flex">
+                <div className="text-black/40 text-sm font-bold font-['Roboto'] leading-[14px]">Subscribers</div>
+                <div className="text-right text-black text-lg font-normal font-['Roboto'] leading-[18px]">2K</div>
+              </div>
+            </>
+          ) : null
+        }
       </div>
       {box && <BoxOverview data={box} id={id} />}
     </div>

@@ -17,7 +17,7 @@ const AllBoxList = () => {
       {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         data.data.map((data: any) => {
-          return <BoxCard {...data} key={data.id} />
+          return <BoxCard {...data} key={data.id} showUnstakeBtn={false} showFlowData={true} />
         })
       }
     </div>
