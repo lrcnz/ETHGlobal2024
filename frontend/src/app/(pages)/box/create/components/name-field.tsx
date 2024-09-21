@@ -26,9 +26,9 @@ const NameField = ({ className }: { className: string }) => {
         </div>
       </div>
       <div className="px-6 py-4 rounded-[20px] bg-[#F5F5F5] flex flex-col">
-        <p className="mb-2">Risk Level (Calculated): Safe</p>
+        <p className="mb-2">Risk Level (Calculated): <span className="uppercase">{riskLevel}</span></p>
         <div className="flex items-center gap-1 flex-1">
-          <div className={twMerge("flex-1 h-3 bg-black/20", riskLevel === "safe" ? "bg-safe" : riskLevel === "medium" ? "bg-medium" : riskLevel === "risk" ? "bg-risk" : "")} />
+          <div className={twMerge("flex-1 h-3 bg-black/20", riskLevel === "safe" ? "bg-safe" : riskLevel === "medium" ? "bg-medium" : riskLevel === "risk" ? "bg-risky" : "")} />
           <div className={twMerge("flex-1 h-3 bg-black/20", riskLevel === "medium" ? "bg-medium" : riskLevel === "risk" ? "bg-risky" : "")} />
           <div className={twMerge("flex-1 h-3 bg-black/20", riskLevel === "risk" ? "bg-risky" : "")} />
         </div>

@@ -20,7 +20,6 @@ export class RenzoAction implements Action {
     return `Stake ${inputToken} on Zenzo`;
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getOutputPreviewElement (circuit: Circuit) {
     const Preview = () => {
       return <CommonOutputPreview tokens={['ezETH']} />;

@@ -43,7 +43,7 @@ export class LidoAction implements Action {
     const { inputToken } = data;
 
     if (inputToken && inputToken[0] === "ETH") {
-      return 0.028;
+      return 0.031;
     }
 
     return 0;

@@ -19,7 +19,7 @@ export class ShortMarket implements Action {
     
     if (!inputToken || inputToken.length !== 1) return "";
 
-    return `Open ${inputToken[0]} Short Position`;
+    return `Open ETH Short Position`;
   }
 
   public checkIfUseable(circuit: Circuit): boolean {
@@ -29,13 +29,13 @@ export class ShortMarket implements Action {
 
     const token = inputToken[0];
 
-    return token === 'ETH';
+    return token === 'USDC';
   }
 
   public getOutputToken(data: CircuitData): CircuitOutput {
     const { inputToken } = data;
 
-    return [`Short ${inputToken?.[0]}`];
+    return ['Short ETH'];
   }
 
   public getOutputPreviewElement (circuit: Circuit) {

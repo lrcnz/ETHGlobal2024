@@ -114,7 +114,7 @@ const SigninCard = () => {
               <p className="text-red-600 absolute -bottom-5 text-xs">{errors.password?.message}</p>
             </div>
           </div>
-          <button type="submit" className="btn btn-primary">SIGNIN</button>
+          <button type="submit" className="btn btn-primary">Register/Login</button>
         </form>
       </div>
     </div>

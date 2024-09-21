@@ -17,7 +17,7 @@ export class LendingPool implements Action {
     
     if (!inputToken || inputToken.length !== 1) return "";
 
-    return `Lend ${inputToken[0]} to Borrow ETH`;
+    return `Lend ${inputToken[0]} to Borrow USDC`;
   }
 
   public checkIfUseable(circuit: Circuit): boolean {
@@ -27,17 +27,21 @@ export class LendingPool implements Action {
 
     const token = inputToken[0];
 
-    return token === 'ezETH';
+    return token === 'ezETH' || token === 'stETH';
+  }
+
+  public getAPY(data: CircuitData): number {
+    return 0.01;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getOutputToken(data: CircuitData): CircuitOutput {
-    return ['USDT'];
+    return ['USDC'];
   }
 
   public getOutputPreviewElement () {
     const Preview = () => {
-      return <CommonOutputPreview tokens={['USDT']} />;
+      return <CommonOutputPreview tokens={['USDC']} />;
     }
 
     return Preview;
@@ -46,7 +50,7 @@ export class LendingPool implements Action {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getNextCircuit(data: CircuitData): Circuit[] {
     return [
-      new Circuit({ inputToken: ['USDT'] }),
+      new Circuit({ inputToken: ['USDC'] }),
     ];
   }
 

@@ -30,7 +30,7 @@ const TypedText = ({ text, className, onCompletedTyping }: { text: string, class
     }, 20);
 
     return () => clearInterval(intervalId);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [text]);
 
   return (
@@ -143,6 +143,30 @@ export function TarGPTModal() {
     }
   }
 
+  const handleHigherAPY = () => {
+    const newBox = Box.fromJSON(
+      JSON.parse(`[{\"id\":\"0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"swap\",\"outputToken\":[\"ETH\"]}},{\"id\":\"0-0\",\"data\":{\"inputToken\":[\"ETH\"],\"actionId\":\"lido\",\"outputToken\":[\"stETH\"]}},{\"id\":\"0-0-0\",\"data\":{\"inputToken\":[\"stETH\"],\"actionId\":\"lending-pool\",\"outputToken\":[\"USDC\"]}},{\"id\":\"0-0-0-0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"swap\",\"outputToken\":[\"ETH\"]}}]`)
+    );
+
+    if (newBox.getRoot()) {
+      box.setRoot(newBox.getRoot()!);
+      box.notifyTreeChange();
+      form.setValue('boxName', 'Long ETH')
+    }
+  }
+
+  const handleDeltaNeutra = () => {
+    const newBox = Box.fromJSON(
+      JSON.parse(`"[{\"id\":\"0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"split\",\"outputToken\":[\"USDC\",\"USDC\"]}},{\"id\":\"0-0\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"swap\",\"outputToken\":[\"ETH\"]}},{\"id\":\"0-0-0\",\"data\":{\"inputToken\":[\"ETH\"],\"actionId\":\"lido\",\"outputToken\":[\"stETH\"]}},{\"id\":\"0-1\",\"data\":{\"inputToken\":[\"USDC\"],\"actionId\":\"short-market\",\"outputToken\":[\"Short USDC\"]}}]"`)
+    );
+
+    if (newBox.getRoot()) {
+      box.setRoot(newBox.getRoot()!);
+      box.notifyTreeChange();
+      form.setValue('boxName', 'Delta Neutra')
+    }
+  }
+
 
   const items = useMemo(() => [
     [
@@ -203,7 +227,7 @@ export function TarGPTModal() {
               <div className="my-4">
                 <div className="flex gap-8 mb-2">
                   <button className="btn btn-primary btn-sm" onClick={() => setStep(3)}>Lower Risk</button>
-                  <button className="btn btn-primary btn-sm" onClick={() => setStep(3)}>Higher APY</button>
+                  <button className="btn btn-primary btn-sm" onClick={() => {setStep(4)}}>Higher APY</button>
                 </div>
                 <p>Provide your feedback for adjustments</p>
               </div>
@@ -221,7 +245,22 @@ export function TarGPTModal() {
             <TypedTextFlow>
               <TypedText text="Finding suitable Circuits for overall lower risk Box..." />
               <TypedText text="Box updated🚀" />
-              <TypedText text="Please review the updated created Box with lower overall risk." />
+              <TypedText text="Please review the updated created Box with lower overall risk." onCompletedTyping={() => handleHigherAPY()} />
+            </TypedTextFlow>
+          </div>
+        }
+      />
+    ],
+    [
+      <DialogItem
+        key="targpt-response-2-2"
+        avatar={<TarGPTAvatar />}
+        content={
+          <div className="text-sm font-normal">
+            <TypedTextFlow>
+              <TypedText text="Finding suitable Circuits for overall lower risk Box..." />
+              <TypedText text="Box updated🚀" />
+              <TypedText text="Please review the updated created Box with lower overall risk." onCompletedTyping={() => handleDeltaNeutra()} />
             </TypedTextFlow>
           </div>
         }
@@ -240,7 +279,7 @@ export function TarGPTModal() {
       <dialog id="targpt-modal" className="modal" onClose={() => setOpen(false)}>
         {
           open && (
-            <div className="modal-box bg-white">
+            <div className="modal-box bg-white translate-x-[560px] mt-[200px]">
               <h3 className="font-bold text-lg mb-5">TarGPT Assistant</h3>
               <div className="h-[600px] overflow-auto">
                 {items.slice(0, step)}
