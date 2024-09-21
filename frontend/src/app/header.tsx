@@ -20,7 +20,7 @@ export default function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="relative p-5 shadow-[0px_0px_6px_0px_rgba(0,0,0,0.12)] bg-black ">
+    <header className="relative p-2 shadow-[0px_0px_6px_0px_rgba(0,0,0,0.12)] bg-black ">
       <div className="w-full h-full flex items-center justify-between">
         <TardisLogo />
       </div>
