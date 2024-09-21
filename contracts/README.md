@@ -14,6 +14,7 @@ Deployed on Ethereum Sepolia testnet
 | Mocked ShortMarket | 0x4f2369426432b3a2a8D2b82bA8F82Eb6E34bb9bF |
 | UniswapV2Router | 0xC532a74256D3Db42D0Bf7a0400fEFDbad7694008 |
 | UniswapV2Factory | 0x7E0987E5b3a30e3f2828572Bb659A548460a3003 |
+| YT-WstETH | 0xf60263B6dd8251FBbb14DC4FF3610bf28969a10F |
 
 ## Usage
 
