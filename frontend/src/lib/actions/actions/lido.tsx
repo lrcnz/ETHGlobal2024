@@ -1,5 +1,5 @@
 import { Address, PublicClient } from "viem";
-import { Action, Contracts, Logic } from "../types";
+import { Action, Contracts } from "../types";
 import { LIDO } from "./abis/lido";
 import { ST_ETH_ADDRESS } from "@/configs/contracts";
 import { Circuit } from "@/lib/box/circuit";
@@ -19,6 +19,7 @@ export class LidoAction implements Action {
     return `Deposit ${inputToken} to Lido`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getOutputPreviewElement(_circuit: Circuit) {
     const Preview = () => {
       return <CommonOutputPreview tokens={["stETH"]} />;
@@ -27,6 +28,7 @@ export class LidoAction implements Action {
     return Preview;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getOutputToken(_data: CircuitData): CircuitOutput {
     return ["stETH"];
   }

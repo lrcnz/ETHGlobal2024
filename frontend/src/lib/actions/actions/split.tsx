@@ -17,11 +17,13 @@ export class SplitAction implements Action {
   }
 
   public getOutputPreviewElement?: ((circuit: Circuit) => () => JSX.Element) | undefined = (circuit) => {
-    return () => {
+    const Previwe = () => {
       const [data] = useCircuitData(circuit);
 
       return <CommonOutputPreview tokens={data.inputToken || []} />;
     }
+
+    return Previwe;
   }
 
   public getOutputToken(data: CircuitData) {

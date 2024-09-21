@@ -10,6 +10,7 @@ export function useUserBoxList () {
     queryFn: async () => {
       const response = await fetch(`/api/box/creator/${address}`).then((res) => res.json());
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return response.map((item: any) => ({
         id: item.id,
         name: item.name,

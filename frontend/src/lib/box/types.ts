@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type CircuitInput = string[];
 export type CircuitOutput = string[];

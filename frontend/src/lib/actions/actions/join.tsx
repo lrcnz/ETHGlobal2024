@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Action } from "../types";
 import { ST_ETH_ADDRESS } from "@/configs/contracts";
 import { Circuit } from "@/lib/box/circuit";

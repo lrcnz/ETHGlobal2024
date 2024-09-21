@@ -1,5 +1,4 @@
 import { Circuit } from "../box/circuit";
-import { CircuitInput } from "../box/types";
 import { Action } from "./types";
 
 export class ActionManager {

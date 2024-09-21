@@ -149,7 +149,7 @@ export class SwapAction implements Action {
     publicClient: PublicClient
   ): Promise<Contracts> {
     const getTxParams = async (token0: Token, token1: Token, amount: bigint) => {
-      const [pairAddress, pair] = await createPair(token0, token1, publicClient);
+      const [, pair] = await createPair(token0, token1, publicClient);
       const router = new Route([pair], token0, token1)
       const trade = new Trade(router, CurrencyAmount.fromRawAmount(token0, amount.toString()), TradeType.EXACT_INPUT)
 
@@ -193,8 +193,6 @@ export class SwapAction implements Action {
         args: [this.contractAddress, amount]
       });
     }
-
-    console.log(isInputTokenETH, isOutputTokenETH);
 
     // input is eth and output is token
     if (isInputTokenETH && !isOutputTokenETH) {

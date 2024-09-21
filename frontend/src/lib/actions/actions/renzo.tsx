@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { RENZO } from "./abis/renzo";
 import { Action, Contracts, Logic } from "../types";
 import { LIDO } from "./abis/lido";
@@ -19,10 +20,13 @@ export class RenzoAction implements Action {
     return `Stake ${inputToken} on Zenzo`;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public getOutputPreviewElement (circuit: Circuit) {
-    return () => {
+    const Preview = () => {
       return <CommonOutputPreview tokens={['ezETH']} />;
     }
+
+    return Preview;
   }
 
   public getOutputToken(_data: CircuitData) {
