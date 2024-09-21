@@ -18,26 +18,6 @@ contract USDC is ERC20 {
     }
 }
 
-contract WETH is ERC20 {
-    event Deposit(address indexed dst, uint256 amount);
-    event Withdrawal(address indexed src, uint256 amount);
-
-    constructor() ERC20("Wrapped ETH", "WETH", 18) {}
-
-    function deposit() public payable {
-        _mint(msg.sender, msg.value);
-
-        emit Deposit(msg.sender, msg.value);
-    }
-
-    function withdraw(uint256 amount) public {
-        _burn(msg.sender, amount);
-        payable(msg.sender).transfer(amount);
-
-        emit Withdrawal(msg.sender, amount);
-    }
-}
-
 contract ShareToken is ERC20 {
     using SafeMath for uint256;
     using SafeERC20 for IERC20;
