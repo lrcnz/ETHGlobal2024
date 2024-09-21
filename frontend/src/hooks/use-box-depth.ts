@@ -1,5 +1,5 @@
+import { Box } from "@/lib/box/box";
 import { useEffect, useState } from "react";
-import { Box } from "../box";
 
 export function useBoxDepth (box: Box | undefined | null) {
   const [depth, setDepth] = useState<number>(0);

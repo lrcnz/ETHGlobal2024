@@ -1,7 +1,5 @@
-export default function HomePage ({ children }: { children: React.ReactNode }) {
-  return (
-    <div>
-      {children}
-    </div>
-  );
+function HomePage (): JSX.Element {
+  return <div/>;
 }
+
+export default HomePage;
