@@ -12,6 +12,7 @@
     "@circle-fin/user-controlled-wallets": "^4.4.1",
     "@circle-fin/w3s-pw-web-sdk": "^1.1.5",
     "@hookform/resolvers": "^3.9.0",
+    "@metamask/jazzicon": "^2.0.0",
     "@prisma/client": "^5.19.1",
     "@tanstack/react-query": "5.17.19",
     "immer": "^10.1.1",

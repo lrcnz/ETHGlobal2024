@@ -1,9 +1,9 @@
-import UserInformation from "./components/user-inforamtion";
+import TopCreators from "./components/top-creators";
 
 export default function Page () {
   return (
     <div>
-      <UserInformation />
+      <TopCreators />
     </div>
   );
 }
