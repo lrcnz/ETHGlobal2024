@@ -89,16 +89,16 @@ export function BoxCard({ id, name, creatorAddress, content, apy, showUnstakeBtn
           showFlowData ? (
             <>
               <div className="h-[72px] p-4 bg-neutral-100 rounded-[20px] flex-col justify-start items-start gap-2 inline-flex">
-                <div className="text-black/40 text-sm font-bold font-['Roboto'] leading-[14px]">Total Volume</div>
-                <div className="text-right text-black text-lg font-normal font-['Roboto'] leading-[18px]">{(Math.random() * 10).toFixed(2)}M</div>
+                <div className="text-black/40 text-sm font-bold leading-[14px]">Total Volume</div>
+                <div className="text-right text-black text-lg font-normal leading-[18px]">{(Math.random() * 10).toFixed(2)}M</div>
               </div>
               <div className="h-[72px] p-4 bg-neutral-100 rounded-[20px] flex-col justify-start items-start gap-2 inline-flex">
-                <div className="text-black/40 text-sm font-bold font-['Roboto'] leading-[14px]">Box tx</div>
-                <div className="text-right text-black text-lg font-normal font-['Roboto'] leading-[18px]">{(Math.random() * 10).toFixed(2)}K</div>
+                <div className="text-black/40 text-sm font-bold leading-[14px]">Box tx</div>
+                <div className="text-right text-black text-lg font-normal leading-[18px]">{(Math.random() * 10).toFixed(2)}K</div>
               </div>
               <div className="h-[72px] p-4 bg-neutral-100 rounded-[20px] flex-col justify-start items-start gap-2 inline-flex">
-                <div className="text-black/40 text-sm font-bold font-['Roboto'] leading-[14px]">Subscribers</div>
-                <div className="text-right text-black text-lg font-normal font-['Roboto'] leading-[18px]">2K</div>
+                <div className="text-black/40 text-sm font-bold leading-[14px]">Subscribers</div>
+                <div className="text-right text-black text-lg font-normal leading-[18px]">2K</div>
               </div>
             </>
           ) : null
