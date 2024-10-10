@@ -12,7 +12,8 @@ import { CloseShortMarket } from "@/lib/actions/actions/close-short-market";
 import { actionManager } from "@/atoms/action-manager";
 import { UnstakeRenzoAction } from "@/lib/actions/actions/unstake-renzo";
 import { UnstakeLidoAction } from "@/lib/actions/actions/unstake-lido";
-import { CctpAction } from "@/lib/actions/actions/cctp";
+import { SuperstateDepositAction } from "@/lib/actions/actions/superstate-deposit";
+import { SuperstateWithdrawAction } from "@/lib/actions/actions/superstate-withdraw";
 
 export function useInitActionManager () {
   const [, setActionManager] = useAtom(actionManager);
@@ -29,7 +30,8 @@ export function useInitActionManager () {
       new CloseShortMarket(),
       new UnstakeRenzoAction(),
       new UnstakeLidoAction(),
-      new CctpAction()
+      new SuperstateDepositAction(),
+      new SuperstateWithdrawAction()
     ]));
   }, [setActionManager]);
 }
