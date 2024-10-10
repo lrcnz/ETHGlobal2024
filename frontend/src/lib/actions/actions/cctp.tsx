@@ -7,8 +7,10 @@ export class CctpAction implements Action {
   readonly id = "Cctp";
   readonly riskLevel = "safe";
 
-  public getDescription(_data: Circuit): string {
-    return `Bridge tokens from Base to Ethereum`;
+  public getDescription(data: Circuit): string {
+    const inputToken = data.details?.inputToken?.[0];
+
+    return `Bridge ${inputToken} from Base to Ethereum`;
   }
 
   public getNextCircuit(_data: CircuitData): Circuit[] {

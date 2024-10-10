@@ -19,7 +19,7 @@ const TokenEdit = ({ circuit, disabled }: CircuitEditProps) => {
             key={`input-token-${token}-${index}-${circuit.getId()}`}
             value={token}
             onChange={(value) => setValue(value, index)}
-            tokens={['ETH', "USDC", "stETH", 'ezETH']}
+            tokens={['ETH', "USDC", "stETH", 'ezETH', 'USTB']}
             disabled={disabled}
           />
         ))
