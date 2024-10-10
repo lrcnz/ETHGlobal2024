@@ -17,7 +17,7 @@ export class RenzoAction implements Action {
 
     if (!inputToken) return '';
 
-    return `Stake ${inputToken} on Zenzo`;
+    return `Stake ${inputToken} on Renzo`;
   }
 
   public getOutputPreviewElement (circuit: Circuit) {

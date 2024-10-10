@@ -6,8 +6,8 @@ import { CommonOutputPreview } from "./utils/common-output-preview";
 import { PublicClient } from "viem";
 import { SHORT_MARKET_ABI } from "./abis/short-market";
 
-export class CloseShortMarket implements Action {
-  readonly id = 'close-short-market';
+export class OpenShortMarket implements Action {
+  readonly id = 'open-short-market';
   readonly riskLevel = "risk";
   readonly contractAddress = SHORT_MARKET;
 
@@ -16,7 +16,7 @@ export class CloseShortMarket implements Action {
     
     if (!inputToken || inputToken.length !== 1) return "";
 
-    return `Close ${inputToken[0]} Short Position`;
+    return `Open ${inputToken[0]} Short Position`;
   }
 
   public checkIfUseable(circuit: Circuit): boolean {
