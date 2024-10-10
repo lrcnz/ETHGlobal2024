@@ -16,7 +16,7 @@ export class SuperstateWithdrawAction implements Action {
   }
 
   public checkIfUseable(circuit: Circuit): boolean {
-    const inputToken = circuit.details?.outputToken?.[0];
+    const inputToken = circuit.details?.inputToken?.[0];
 
     return inputToken === 'USTB';
   }
