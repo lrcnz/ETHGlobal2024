@@ -12,7 +12,7 @@ export class SuperstateWithdrawAction implements Action {
   }
 
   public getNextCircuit(_data: CircuitData): Circuit[] {
-    return [];
+    return [new Circuit({ inputToken: ["USDC"] })];
   }
 
   public checkIfUseable(circuit: Circuit): boolean {
